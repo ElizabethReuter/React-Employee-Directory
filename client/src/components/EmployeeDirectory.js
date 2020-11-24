@@ -63,7 +63,7 @@ handleSort = () => {
 }
 
     render (){
-        if (this.state.employees.length==0){
+        if (this.state.employees.length===0){
             this.setState({ 
                 employees: empData.results
             });
