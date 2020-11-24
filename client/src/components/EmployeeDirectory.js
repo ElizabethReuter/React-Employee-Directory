@@ -1,39 +1,80 @@
-import React, {Component, useEffect, useState} from "react";
-import API from "../utils/API.js";
+import React, {Component,} from "react";
+import empData from "../utils/empData.json";
 import SearchBar from "./SearchBar";
 import Table from "./Table.js";
 
-// change to class component
 class EmployeeDirectory extends Component {
     // define use state
     state = {
-        user: []
-    }
-    componentDidMount () {
-        console.log("hi")
-        API.searchName().then(response => {
-            console.log(response);
-          this.setState({ user : response.data.results });
-            console.log(this.state.user);
-        //   set user state
-          //add in reposnse here that renders to page name, email, phone, cell, thumbnail
-        })
+        name: "",
+        employees: [],
+        sortAscending:false
     }
 
-render (){
+    handleInputChange = event => {
+        console.log("search submitted");
+        const name = event.target.name;
+        const value = event.target.value;
+        let filteredEmp = empData.results.filter(employee => {
+            if (employee.name.first.toLowerCase().includes(value.toLowerCase()) || employee.name.last.toLowerCase().includes(value.toLowerCase())) {
+              return employee;
+            }
+        });
+        this.setState({
+          [name]: value,
+          employees: filteredEmp
+        });
+        console.log(this.state.employees);
+    this.render();
+    }
 
-    
-return (
-    <div>
-        <Table data={this.state.user}/>
-        {/* map //pass down into table row.. props drilling taking too </div> */}
-        <TableRow />
-        {/* pass down state as a prop */}
-    </div>
-)}
+handleSort = () => {
+    console.log("handling sort");
+    let sortedList=this.state.employees.slice();
+    let currentSort=this.state.sortAscending;
+    sortedList.sort((a, b) => {
+        let fullNameA=a.name.first + a.name.last;
+        let fullNameB=b.name.first + b.name.last;
+        if (this.state.sortAscending){
+            if (fullNameA < fullNameB)
+                return -1;
+            if (fullNameB < fullNameA)
+                return 1;
+        }else {
+            if (fullNameA < fullNameB)
+                return 1;
+            if (fullNameB < fullNameA)
+                return -1;
+        }
+        return 0;
+    });
+
+    if (this.state.sortAscending){
+        currentSort=false;
+    } else {
+        currentSort=true;
+    }
+
+    this.setState({
+        employees: sortedList,
+        sortAscending: currentSort 
+      });
+    this.render();
+}
+
+    render (){
+        if (this.state.employees.length==0){
+            this.setState({ 
+                employees: empData.results
+            });
+        }
+        return (
+            <div>
+                <SearchBar data={this}/>
+                <Table empData={this.state.employees} handler={this.handleSort}/>
+            </div>
+        )}
 };
-
-
 
 
 export default EmployeeDirectory;
