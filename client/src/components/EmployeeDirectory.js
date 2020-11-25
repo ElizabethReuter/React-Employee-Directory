@@ -68,6 +68,7 @@ handleSort = () => {
                 employees: empData.results
             });
         }
+
         return (
             <div>
                 <SearchBar data={this}/>
