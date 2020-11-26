@@ -16,9 +16,6 @@ return (
           <tbody>
             {props.empData.map((employee, index) => (
             <tr key={index}>   
-              <td>
-                <img alt="employee picture" src={employee.picture.thumbnail}></img>
-              </td>
               <td>{employee.name.first} {employee.name.last}</td>
               <td>{employee.email}</td>
               <td>{employee.phone}</td>
