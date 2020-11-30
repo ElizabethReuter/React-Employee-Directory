@@ -1,13 +1,15 @@
 import React from "react";
+import "./style.css";
 
 const Table = (props) => {
   console.log(props);
 return (
-    <table border="1">
+    <div className="container">
+      <table className="table">
           <thead>
             <tr>
               <th>Photo</th>
-              <th onClick={props.handler}>Name</th>
+              <th className="name-toggle" onClick={props.handler}>Name</th>
               <th>Email</th>
               <th>Phone</th>
               <th>Cell</th>
@@ -16,6 +18,9 @@ return (
           <tbody>
             {props.empData.map((employee, index) => (
             <tr key={index}>   
+              <td>
+                <img alt="employee picture" src={employee.picture.thumbnail}></img>
+              </td>
               <td>{employee.name.first} {employee.name.last}</td>
               <td>{employee.email}</td>
               <td>{employee.phone}</td>
@@ -24,7 +29,8 @@ return (
             )
             )}
           </tbody>
-    </table>    
+      </table>
+    </div>    
       );
   };
 

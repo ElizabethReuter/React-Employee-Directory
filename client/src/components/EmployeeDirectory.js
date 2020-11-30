@@ -1,7 +1,8 @@
-import React, {Component,} from "react";
-import empData from "../utils/empData.json";
+import React, {Component} from "react";
 import SearchBar from "./SearchBar";
 import Table from "./Table.js";
+import empData from "../utils/empData.json";
+import "./style.css";
 
 class EmployeeDirectory extends Component {
     // define use state
@@ -10,7 +11,7 @@ class EmployeeDirectory extends Component {
         employees: [],
         sortAscending:false
     }
-
+    
     handleInputChange = event => {
         console.log("search submitted");
         const name = event.target.name;
@@ -63,12 +64,11 @@ handleSort = () => {
 }
 
     render (){
-        if (this.state.employees.length===0){
+        if (this.state.employees.length==0){
             this.setState({ 
                 employees: empData.results
             });
         }
-
         return (
             <div>
                 <SearchBar data={this}/>
